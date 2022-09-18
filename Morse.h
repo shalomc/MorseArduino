@@ -4,12 +4,17 @@
 #ifndef Morse_h
 #define Morse_h
 
+#define MORSE_LIGHT 0
+#define MORSE_SOUND 1
+
+#define MORSE_TONE_FREQUENCY 1000
+
 #include "Arduino.h"
 
 class Morse
 {
   public:
-    Morse(int pin=LED_BUILTIN, int dit_duration=300, bool debug=false, bool ignore_unknown=true, int console_baud_rate=9600);
+    Morse(int pin=LED_BUILTIN, int output_type=MORSE_LIGHT, int dit_duration=300, bool debug=false, bool ignore_unknown=true, int console_baud_rate=9600);
 
     // accepts an english string, converts to a morse string, and sends a morse message
     void sendMessage(String msg ); 
@@ -36,6 +41,8 @@ class Morse
     int _dah_duration ; 
     int _extra_space_between_letters ; 
     int _extra_space_between_words ; 
+    int _output_type;
+    void signal(); 
 
 };
 

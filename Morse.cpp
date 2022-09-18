@@ -8,7 +8,7 @@
 #include "Morse.h"
 
 
-Morse::Morse(int pin=LED_BUILTIN, int dit_duration=300, bool debug=false, bool ignore_unknown=true, int console_baud_rate=9600)
+Morse::Morse(int pin=LED_BUILTIN, int output_type=MORSE_LIGHT, int dit_duration=300, bool debug=false, bool ignore_unknown=true, int console_baud_rate=9600)
 {
   pinMode(pin, OUTPUT);
   _morse_pin = pin;
@@ -22,11 +22,37 @@ Morse::Morse(int pin=LED_BUILTIN, int dit_duration=300, bool debug=false, bool i
   _dah_duration = _dits_in_dah * _dit_duration; 
   _extra_space_between_letters = (_dits_between_letters -1) * _dit_duration; 
   _extra_space_between_words = (_dits_between_words - _dits_between_letters -1) * _dit_duration; 
+  _output_type = output_type; 
 	if (_debug) {
 		Serial.begin(_console_baud_rate); 
   }
 
   
+}
+
+void Morse::signal()
+{
+  // check what is the actual signal channel and act accordingly
+  switch (_output_type) {
+    case MORSE_LIGHT:
+      digitalWrite(_morse_pin, HIGH);
+      delay(_dit_duration);
+      digitalWrite(_morse_pin, LOW);
+      delay(_dit_duration); 
+      break;
+    case MORSE_SOUND:
+      tone(_morse_pin, MORSE_TONE_FREQUENCY, _dit_duration);
+      noTone(_morse_pin);
+      delay(_dit_duration); 
+      break;
+    default: // light
+      digitalWrite(_morse_pin, HIGH);
+      delay(_dit_duration);
+      digitalWrite(_morse_pin, LOW);
+      delay(_dit_duration); 
+      break;
+
+    } 
 }
 
 void Morse::dit()

@@ -4,7 +4,7 @@
 
 // Initialize the morse object
 // when DEBUG is true, the morse codes will be reflected in the serial console
-Morse morse(LED_BUILTIN,MORSE_DIT_DURATION,DEBUG);
+Morse morse(LED_BUILTIN, MORSE_LIGHT, MORSE_DIT_DURATION,DEBUG);
 
 void setup()
 {
